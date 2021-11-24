@@ -1,0 +1,14 @@
+version: "3.3"
+
+services:
+
+  web:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    container_name: node
+    image: web:node
+    ports:
+      - '3000:3000'
+    volumes:
+       - ./:/usr/src/app
