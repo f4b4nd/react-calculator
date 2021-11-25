@@ -1,5 +1,5 @@
 #!/bin/bash
-app_name='react-calculator'
+app_name='calculator'
 
 if [ ! -d "${app_name}" ]; then 
     echo "creating react application ${app_name}..."
