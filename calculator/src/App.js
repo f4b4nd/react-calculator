@@ -19,21 +19,27 @@ function reducer (state, {type, payload}) {
     
     switch (type) {
 
-        case 'digit':
+        case 'digit':             
             curr = state.currentOperand !== null ? state.currentOperand.toString() + payload.toString() : payload.toString()
-            console.log(curr, prev)
-
             return {
                 ...state,
                 currentOperand: curr,
             }
 
         case 'operator':
-            prev = state.currentOperand.toString()
-            console.log('p', payload)
+            if (state.currentOperand !== null && state.previousOperand !== null) {
+                prev = evaluate(state.previousOperand, state.currentOperand, state.operation)
+            }
+            else if (state.currentOperand !== null && state.previousOperand === null) {
+                prev = state.currentOperand.toString()
+            }
+            else if (state.previousOperand !== null && state.currentOperand === null) {
+                prev = state.previousOperand
+            }
+            
             return {
                 ...state,
-                previousOperand: state.currentOperand,
+                previousOperand: prev,
                 currentOperand: null,
                 operation: payload,
             }
