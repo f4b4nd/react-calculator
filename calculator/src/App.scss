@@ -17,6 +17,9 @@
     text-align: right;
     grid-column: 1 /  span 4;
 
+    .previous-operand, .current-operand {
+        height: 20px;
+    }
     .previous-operand {
         font-size: 0.7em;
     }
