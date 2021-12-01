@@ -2,46 +2,37 @@ import { useReducer } from 'react'
 
 import DigitButton from './components/DigitButton'
 import OperationButton from './components/OperationButton'
+import {ACTIONS, evaluate} from './computationHelpers'
 
 import './App.scss'
 
-function init (initialOperand) {
-    return {
-        currentOperand: initialOperand,
-        previousOperand: initialOperand,
-        operation: null,
-    }
-}
+const init = (initialOperand) => ({
+    currentOperand: initialOperand,
+    previousOperand: initialOperand,
+    operation: null,
+})
 
-const ACTIONS = {
-    ADD_DIGIT : 'digit',    
-    REMOVE_DIGIT : 'delete',
-    EVALUATE : 'evaluate',
-    OPERATOR : 'operator',
-    CLEAR : 'clear',
-}
-
-function reducer (state, {type, payload}) {
+const reducer = (state, {type, payload}) => {
     
     let curr, prev = null
     
     switch (type) {
 
         case ACTIONS.ADD_DIGIT:          
-            curr = state.currentOperand !== null ? state.currentOperand.toString() + payload.digit.toString() : payload.digit.toString()
+            curr = state.currentOperand != null ? state.currentOperand.toString() + payload.digit.toString() : payload.digit.toString()
             return {
                 ...state,
                 currentOperand: curr,
             }
 
-        case 'operator':
-            if (state.currentOperand !== null && state.previousOperand !== null) {
+        case ACTIONS.OPERATOR:
+            if (state.currentOperand != null && state.previousOperand != null) {
                 prev = evaluate(state.previousOperand, state.currentOperand, state.operation)
             }
-            else if (state.currentOperand !== null && state.previousOperand === null) {
+            else if (state.currentOperand != null && state.previousOperand == null) {
                 prev = state.currentOperand.toString()
             }
-            else if (state.previousOperand !== null && state.currentOperand === null) {
+            else if (state.previousOperand != null && state.currentOperand == null) {
                 prev = state.previousOperand
             }
             
@@ -49,7 +40,7 @@ function reducer (state, {type, payload}) {
                 ...state,
                 previousOperand: prev,
                 currentOperand: null,
-                operation: payload,
+                operation: payload.operator,
             }
 
             
@@ -82,25 +73,6 @@ function reducer (state, {type, payload}) {
     }
 }
 
-function evaluate (prev, curr, operation) {
-    let res
-    const a = parseFloat(prev)
-    const b = parseFloat(curr)
-
-    if (operation === "+") {
-        res = a + b
-    }
-    else if (operation === "-") {
-        res = a - b
-    }
-    else if (operation === "*") {
-        res = a * b
-    }
-    else if (operation === "÷") {
-        res = a / b
-    }
-    return res
-}
 
 function App () {
     const [state, dispatch] = useReducer(reducer, null, init)
