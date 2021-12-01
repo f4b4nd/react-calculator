@@ -18,8 +18,18 @@ const reducer = (state, {type, payload}) => {
 
         case ACTIONS.ADD_DIGIT:
 
-            if (payload.digit === '.' && state.currentOperand.includes('.'))    return state
+            if (payload.digit === '.') {
+                if (state.currentOperand == null || state.currentOperand.includes('.') || state.currentOperand.length < 1) {
+                    return state
+                }
+            }
             
+            else if (payload.digit === '0') {
+                if (state.currentOperand != null && state.currentOperand.startsWith(0)) {
+                    return state
+                }
+            }
+
             return {
                 ...state,
                 currentOperand: `${state.currentOperand || '' }${payload.digit}`,
@@ -27,7 +37,7 @@ const reducer = (state, {type, payload}) => {
 
         case ACTIONS.OPERATOR:
 
-            let curre, prev = null
+            let prev = null
 
             if (state.previousOperand == null && state.currentOperand == null)  return state
             
@@ -44,7 +54,7 @@ const reducer = (state, {type, payload}) => {
             return {
                 ...state,
                 previousOperand: prev,
-                currentOperand: curre,
+                currentOperand: null,
                 operation: payload.operator,
             }
 
