@@ -6,60 +6,67 @@ import {ACTIONS, evaluate} from './computationHelpers'
 
 import './App.scss'
 
-const init = (initialOperand) => ({
-    currentOperand: initialOperand,
-    previousOperand: initialOperand,
+const init = () => ({
+    currentOperand: null,
+    previousOperand: null,
     operation: null,
 })
 
 const reducer = (state, {type, payload}) => {
-    
-    let curr, prev = null
-    
+        
     switch (type) {
 
-        case ACTIONS.ADD_DIGIT:          
-            curr = state.currentOperand != null ? state.currentOperand.toString() + payload.digit.toString() : payload.digit.toString()
+        case ACTIONS.ADD_DIGIT:
+
+            if (payload.digit === '.' && state.currentOperand.includes('.'))    return state
+            
             return {
                 ...state,
-                currentOperand: curr,
+                currentOperand: `${state.currentOperand || '' }${payload.digit}`,
             }
 
         case ACTIONS.OPERATOR:
-            if (state.currentOperand != null && state.previousOperand != null) {
-                prev = evaluate(state.previousOperand, state.currentOperand, state.operation)
+
+            let curre, prev = null
+
+            if (state.previousOperand == null && state.currentOperand == null)  return state
+            
+            if (state.previousOperand == null) {
+                prev = state.currentOperand
             }
-            else if (state.currentOperand != null && state.previousOperand == null) {
-                prev = state.currentOperand.toString()
-            }
-            else if (state.previousOperand != null && state.currentOperand == null) {
+            else if (state.currentOperand == null) {
                 prev = state.previousOperand
+            }
+            else if (state.previousOperand != null && state.currentOperand != null) {
+                prev = evaluate(state.previousOperand, state.currentOperand, state.operation)
             }
             
             return {
                 ...state,
                 previousOperand: prev,
-                currentOperand: null,
+                currentOperand: curre,
                 operation: payload.operator,
             }
 
             
         case ACTIONS.REMOVE_DIGIT:
-            console.log('c', state.currentOperand)
-            if (state.currentOperand != null) {
-                if (state.currentOperand.length > 1) {
-                    const end = state.currentOperand.length - 1 
-                    curr = state.currentOperand.substring(0, end)
-                }
-            }
+            
+            if (state.currentOperand == null || state.currentOperand.length < 1)   return state
 
+            const end = state.currentOperand.length - 1
+            const curr = state.currentOperand.substring(0, end)
+            
             return {
                 ...state, 
                 currentOperand: curr
             }
 
         case ACTIONS.EVALUATE:
+
+            if (state.previousOperand == null || state.currentOperand == null)  return state
+
             const res = evaluate(state.previousOperand, state.currentOperand, state.operation)
+
             return {
                 ...state,
                 previousOperand: res,
@@ -67,15 +74,15 @@ const reducer = (state, {type, payload}) => {
                 operation: null,
             }
 
-        case 'reset':
-            return init(null)
+        case ACTIONS.CLEAR:
+            return init()
 
     }
 }
 
 
 function App () {
-    const [state, dispatch] = useReducer(reducer, null, init)
+    const [state, dispatch] = useReducer(reducer, init)
     return (
         <div className="App">
             <div className="calculator">
@@ -84,7 +91,7 @@ function App () {
                     <div className="current-operand"> {state.currentOperand} </div>
                 </div>
 
-                <button className="ac" onClick={() => dispatch({type: 'reset'})}> AC </button>
+                <button className="ac" onClick={() => dispatch({type: 'clear'})}> AC </button>
                 <button className="del" onClick={() => dispatch({type: 'delete'})}> DEL </button>
                 <OperationButton operator={"÷"} dispatch={dispatch} /> 
 
