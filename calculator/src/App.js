@@ -4,7 +4,7 @@ import './App.scss'
 
 import DigitButton from './components/DigitButton'
 import OperationButton from './components/OperationButton'
-import {initOperands, operandsReducer} from './computationReducer'
+import {initOperands, operandsReducer} from './operandReducer'
 
 
 function App () {

@@ -33,6 +33,14 @@ const operandsReducer = (state, {type, payload}) => {
                 }
             }
 
+            if (state.operation == null && state.previousOperand != null) {
+                return {
+                    ...state,
+                    previousOperand: null,
+                    currentOperand: payload.digit
+                }
+            }
+
             return {
                 ...state,
                 currentOperand: `${state.currentOperand || '' }${payload.digit}`,
@@ -41,7 +49,7 @@ const operandsReducer = (state, {type, payload}) => {
         case ACTIONS.OPERATOR:
 
             let prev = null
-
+            console.log(state)
             if (state.previousOperand == null && state.currentOperand == null)  return state
             
             if (state.previousOperand == null) {
