@@ -1,11 +1,3 @@
-const ACTIONS = {
-    ADD_DIGIT : 'digit',    
-    REMOVE_DIGIT : 'delete',
-    EVALUATE : 'evaluate',
-    OPERATOR : 'operator',
-    CLEAR : 'clear',
-}
-
 const evaluate = (prev, curr, operation) => {
     let res
     const a = parseFloat(prev)
@@ -27,4 +19,4 @@ const evaluate = (prev, curr, operation) => {
 }
 
 
-export {ACTIONS, evaluate}
+export default evaluate
