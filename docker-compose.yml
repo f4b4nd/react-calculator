@@ -6,7 +6,7 @@ services:
     build:
       context: ./
       dockerfile: dockerfile
-    container_name: node
+    container_name: node12
     image: web:node12
     ports:
       - '3000:3000'
