@@ -13,14 +13,22 @@ function init (initialOperand) {
     }
 }
 
+const ACTIONS = {
+    ADD_DIGIT : 'digit',    
+    REMOVE_DIGIT : 'delete',
+    EVALUATE : 'evaluate',
+    OPERATOR : 'operator',
+    CLEAR : 'clear',
+}
+
 function reducer (state, {type, payload}) {
     
     let curr, prev = null
     
     switch (type) {
 
-        case 'digit':             
-            curr = state.currentOperand !== null ? state.currentOperand.toString() + payload.toString() : payload.toString()
+        case ACTIONS.ADD_DIGIT:          
+            curr = state.currentOperand !== null ? state.currentOperand.toString() + payload.digit.toString() : payload.digit.toString()
             return {
                 ...state,
                 currentOperand: curr,
@@ -43,8 +51,23 @@ function reducer (state, {type, payload}) {
                 currentOperand: null,
                 operation: payload,
             }
-        
-        case 'equals':
+
+            
+        case ACTIONS.REMOVE_DIGIT:
+            console.log('c', state.currentOperand)
+            if (state.currentOperand != null) {
+                if (state.currentOperand.length > 1) {
+                    const end = state.currentOperand.length - 1 
+                    curr = state.currentOperand.substring(0, end)
+                }
+            }
+
+            return {
+                ...state, 
+                currentOperand: curr
+            }
+
+        case ACTIONS.EVALUATE:
             const res = evaluate(state.previousOperand, state.currentOperand, state.operation)
             return {
                 ...state,
@@ -90,7 +113,7 @@ function App () {
                 </div>
 
                 <button className="ac" onClick={() => dispatch({type: 'reset'})}> AC </button>
-                <button className="del"> DEL </button>
+                <button className="del" onClick={() => dispatch({type: 'delete'})}> DEL </button>
                 <OperationButton operator={"÷"} dispatch={dispatch} /> 
 
                 <DigitButton digit={1} dispatch={dispatch} /> 
@@ -110,7 +133,7 @@ function App () {
 
                 <DigitButton digit={'.'} dispatch={dispatch} /> 
                 <DigitButton digit={0} dispatch={dispatch} /> 
-                <button className="equals" onClick={() => dispatch({type: 'equals'})} > = </button>
+                <button className="equals" onClick={() => dispatch({type: 'evaluate'})} > = </button>
 
             </div>
         </div>
