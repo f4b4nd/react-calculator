@@ -20,8 +20,8 @@ export default function App () {
                     <div className="current-operand"> {state.currentOperand} </div>
                 </div>
 
-                <button className="ac" onClick={() => dispatch({type: 'clear'})}> AC </button>
-                <button className="del" onClick={() => dispatch({type: 'delete'})}> DEL </button>
+                <button className="ac" onClick={() => dispatch({type: 'ALL_CLEAR'})}> AC </button>
+                <button className="del" onClick={() => dispatch({type: 'REMOVE_DIGIT'})}> DEL </button>
                 <OperationButton operator={"÷"} dispatch={dispatch} /> 
 
                 <DigitButton digit={1} dispatch={dispatch} /> 
@@ -41,7 +41,7 @@ export default function App () {
 
                 <DigitButton digit={'.'} dispatch={dispatch} /> 
                 <DigitButton digit={0} dispatch={dispatch} /> 
-                <button className="equals" onClick={() => dispatch({type: 'evaluate'})} > = </button>
+                <button className="equals" onClick={() => dispatch({type: 'EVALUATE'})} > = </button>
 
             </div>
         </div>

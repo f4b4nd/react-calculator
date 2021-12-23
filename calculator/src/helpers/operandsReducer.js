@@ -1,5 +1,4 @@
 import { evaluate } from './evaluate'
-import { ACTIONS } from './actions'
 
 export const initialOperands = () => ({
     currentOperand: null,
@@ -11,7 +10,7 @@ export const operandsReducer = (state, {type, payload}) => {
         
     switch (type) {
 
-        case ACTIONS.ADD_DIGIT:
+        case 'ADD_DIGIT':
 
             if (payload.digit === '.') {
                 if (state.currentOperand == null || state.currentOperand.includes('.') || state.currentOperand.length < 1) {
@@ -38,7 +37,7 @@ export const operandsReducer = (state, {type, payload}) => {
                 currentOperand: `${state.currentOperand || '' }${payload.digit}`,
             }
 
-        case ACTIONS.OPERATOR:
+        case 'OPERATOR':
 
             let prev = null
 
@@ -47,9 +46,11 @@ export const operandsReducer = (state, {type, payload}) => {
             if (state.previousOperand == null) {
                 prev = state.currentOperand
             }
+
             else if (state.currentOperand == null) {
                 prev = state.previousOperand
             }
+
             else if (state.previousOperand != null && state.currentOperand != null) {
                 prev = evaluate(state.previousOperand, state.currentOperand, state.operation)
             }
@@ -62,7 +63,7 @@ export const operandsReducer = (state, {type, payload}) => {
             }
 
             
-        case ACTIONS.REMOVE_DIGIT:
+        case 'REMOVE_DIGIT':
             
             if (state.currentOperand == null || state.currentOperand.length < 1)   return state
 
@@ -74,7 +75,7 @@ export const operandsReducer = (state, {type, payload}) => {
                 currentOperand: curr
             }
 
-        case ACTIONS.EVALUATE:
+        case 'EVALUATE':
 
             if (state.previousOperand == null || state.currentOperand == null)  return state
 
@@ -87,7 +88,7 @@ export const operandsReducer = (state, {type, payload}) => {
                 operation: null,
             }
 
-        case ACTIONS.CLEAR:
+        case 'ALL_CLEAR':
             return initialOperands()
 
     }
