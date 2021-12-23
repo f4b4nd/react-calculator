@@ -1,21 +1,13 @@
-import evaluate from './computationHelpers'
+import { evaluate } from './evaluate'
+import { ACTIONS } from './actions'
 
-
-const ACTIONS = {
-    ADD_DIGIT : 'digit',    
-    REMOVE_DIGIT : 'delete',
-    EVALUATE : 'evaluate',
-    OPERATOR : 'operator',
-    CLEAR : 'clear',
-}
-
-const initOperands = () => ({
+export const initialOperands = () => ({
     currentOperand: null,
     previousOperand: null,
     operation: null,
 })
 
-const operandsReducer = (state, {type, payload}) => {
+export const operandsReducer = (state, {type, payload}) => {
         
     switch (type) {
 
@@ -49,7 +41,7 @@ const operandsReducer = (state, {type, payload}) => {
         case ACTIONS.OPERATOR:
 
             let prev = null
-            console.log(state)
+
             if (state.previousOperand == null && state.currentOperand == null)  return state
             
             if (state.previousOperand == null) {
@@ -96,9 +88,7 @@ const operandsReducer = (state, {type, payload}) => {
             }
 
         case ACTIONS.CLEAR:
-            return initOperands()
+            return initialOperands()
 
     }
 }
-
-export {initOperands, operandsReducer}

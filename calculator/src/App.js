@@ -2,16 +2,19 @@ import { useReducer } from 'react'
 
 import './App.css'
 
-import DigitButton from './components/DigitButton'
-import OperationButton from './components/OperationButton'
-import {initOperands, operandsReducer} from './operandReducer'
+import { DigitButton } from './components/DigitButton'
+import { OperationButton } from './components/OperationButton'
+import { initialOperands, operandsReducer } from './helpers/operandsReducer'
 
 
-function App () {
-    const [state, dispatch] = useReducer(operandsReducer, initOperands)
+export default function App () {
+
+    const [state, dispatch] = useReducer(operandsReducer, initialOperands)
+
     return (
         <div className="App">
             <div className="calculator">
+
                 <div className="output">
                     <div className="previous-operand"> {state.previousOperand} {state.operation} </div>                    
                     <div className="current-operand"> {state.currentOperand} </div>
@@ -44,5 +47,3 @@ function App () {
         </div>
     )
 }
-
-export default App

@@ -14,3 +14,4 @@ https://react-calculator-f4b4nd.netlify.app
 1. Clone/download the code
 2. Have docker and docker-compose installed on your computer
 3. Run `docker-compose up`
+4. Open your favorite browser and go to url `http://localhost:3000`
