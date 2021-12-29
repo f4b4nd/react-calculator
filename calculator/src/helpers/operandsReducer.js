@@ -19,9 +19,17 @@ export const operandsReducer = (state, {type, payload}) => {
             }
             
             else if (payload.digit === '0') {
-                if (state.currentOperand != null && state.currentOperand.startsWith(0)) {
+                if (state.currentOperand != null && 
+                    !(
+                        state.currentOperand.startsWith('0.') || 
+                        (state.currentOperand.length > 0 && !state.currentOperand.startsWith('0')))
+                    ) {
                     return state
                 }
+            }
+
+            if (state.currentOperand?.startsWith('0') && (!state.currentOperand?.includes('.') || payload.digit !== '.')) {
+                return state
             }
 
             if (state.operation == null && state.previousOperand != null) {
