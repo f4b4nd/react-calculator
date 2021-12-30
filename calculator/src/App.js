@@ -16,7 +16,7 @@ export default function App () {
             <div className="calculator">
 
                 <div className="output">
-                    <div className="previous-operand"> {state.previousOperand} {state.operation} </div>                    
+                    <div className="previous-operand"> {state.previousOperand} {state.operator} </div>                    
                     <div className="current-operand"> {state.currentOperand} </div>
                 </div>
 
@@ -39,7 +39,7 @@ export default function App () {
                 <DigitButton digit={9} dispatch={dispatch} />
                 <OperatorButton operator={"-"} dispatch={dispatch} />
 
-                <DigitButton digit={'.'} dispatch={dispatch} /> 
+                <button className="btn btn-decimal" onClick={() => dispatch({type: 'ADD_DECIMAL'})} > . </button>
                 <DigitButton digit={0} dispatch={dispatch} /> 
                 <button className="btn btn-evaluate" onClick={() => dispatch({type: 'EVALUATE'})} > = </button>
 

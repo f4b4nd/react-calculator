@@ -12,37 +12,41 @@ export const operandsReducer = (state, {type, payload}) => {
 
         case 'ADD_DIGIT':
 
-            if (payload.digit === '.') {
-                if (state.currentOperand == null || state.currentOperand.includes('.') || state.currentOperand.length < 1) {
-                    return state
-                }
-            }
-            
-            if (payload.digit === '0' && state.currentOperand != null) {
-                if (
-                    !(
-                        state.currentOperand.startsWith('0.') || 
-                        (state.currentOperand.length > 0 && !state.currentOperand.startsWith('0')))
-                    ) {
+            if (payload.digit === '0') {
+
+                const currentOperandIsDecimal = state.currentOperand?.match(/\d+\./g)
+                const currentOperandIsEmpty = state.currentOperand == null
+                const currentOperandHasNoLeadingZero = !state.currentOperand?.startsWith('0')
+
+                if (!(currentOperandIsDecimal || currentOperandIsEmpty || currentOperandHasNoLeadingZero)) {                    
                     return state
                 }
             }
 
-            if (state.currentOperand?.startsWith('0') && (!state.currentOperand?.includes('.') || payload.digit !== '.')) {
-                return state
-            }
-
-            if (state.operator == null && state.previousOperand != null) {
+            if (state.operator == null && state.previousOperand?.length > 0) {
                 return {
                     ...state,
                     previousOperand: null,
-                    currentOperand: payload.digit
+                    currentOperand: payload.digit,
+                    overwrite: true,
                 }
             }
 
             return {
                 ...state,
-                currentOperand: `${state.currentOperand || '' }${payload.digit}`,
+                currentOperand: `${state.currentOperand?.replace(/^0/g, '') || '' }${payload.digit}`,
+            }
+
+        
+        case 'ADD_DECIMAL':
+
+            if (state.currentOperand == null || state.currentOperand.includes('.') || state.currentOperand.length < 1) {
+                return state
+            }
+            
+            return {
+                ...state,
+                currentOperand: state.currentOperand + '.',
             }
 
         case 'OPERATOR':
