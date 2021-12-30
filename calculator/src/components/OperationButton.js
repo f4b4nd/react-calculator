@@ -1,5 +1,5 @@
 export const OperationButton = ({operator, dispatch}) => (
-    <button onClick={() => dispatch({type: 'OPERATOR', payload: {operator: operator}})}> 
+    <button className="btn-operation" onClick={() => dispatch({type: 'OPERATOR', payload: {operator: operator}})}> 
         {operator} 
     </button>
 )

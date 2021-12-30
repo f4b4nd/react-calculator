@@ -2,32 +2,35 @@
     padding: 2em 1em;
   }
   
-  .calculator {
-    max-width: 400px;
-    height: 300px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 2fr repeat(5, 1fr);
-  }
-  
-  .output {
-    padding: 0.5em;
-    color: white;
-    background-color: #4b4b4b;
-    text-align: right;
-    grid-column: 1/span 4;
-  }
-  .output .previous-operand, .output .current-operand {
-    height: 20px;
-  }
-  .output .previous-operand {
-    font-size: 1.1em;
-  }
-  .output .current-operand {
-    font-size: 1.5em;
-  }
-  
-  .ac, .equals {
-    grid-column-end: span 2;
-  }
+.calculator {
+  max-width: 400px;
+  height: 300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 2fr repeat(5, 1fr);
+}
+
+.output {
+  padding: 0.5em;
+  color: white;
+  background-color: #4b4b4b;
+  text-align: right;
+  grid-column: 1 / span 4;
+}
+
+.output .previous-operand, .output .current-operand {
+  height: 20px;
+}
+
+.output .previous-operand {
+  font-size: 1.1em;
+}
+
+.output .current-operand {
+  font-size: 1.5em;
+}
+
+.btn-allclear, .btn-evaluate {
+  grid-column-end: span 2;
+}

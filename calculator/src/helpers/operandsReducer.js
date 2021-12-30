@@ -75,8 +75,8 @@ export const operandsReducer = (state, {type, payload}) => {
             
             if (state.currentOperand == null || state.currentOperand.length < 1)   return state
 
-            const end = state.currentOperand.length - 1
-            const curr = state.currentOperand.substring(0, end)
+            const lastIndex = state.currentOperand.length
+            const curr = state.currentOperand.substring(0, lastIndex - 1)
             
             return {
                 ...state, 
@@ -85,7 +85,7 @@ export const operandsReducer = (state, {type, payload}) => {
 
         case 'EVALUATE':
 
-            if (state.previousOperand == null || state.currentOperand == null)  return state
+            if (state.previousOperand == null || state.currentOperand == null || state.operation == null)  return state
 
             const res = evaluate(state.previousOperand, state.currentOperand, state.operation)
 
