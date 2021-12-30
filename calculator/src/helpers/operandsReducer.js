@@ -23,17 +23,17 @@ export const operandsReducer = (state, {type, payload}) => {
                 }
             }
 
-            if (state.operator == null && state.previousOperand?.length > 0) {
+            if (state.operator == null && state.previousOperand != null) {
                 return {
                     ...state,
                     previousOperand: null,
-                    currentOperand: payload.digit,
+                    currentOperand: `${payload.digit}`,
                 }
             }
 
             return {
                 ...state,
-                currentOperand: `${state.currentOperand?.match(/0\.|[1-9]/g) ? state.currentOperand : ''}${payload.digit}`,
+                currentOperand: `${state.currentOperand?.match(/^0\.|^[1-9]/g) ? state.currentOperand : ''}${payload.digit}`,
             }
 
         
@@ -45,7 +45,7 @@ export const operandsReducer = (state, {type, payload}) => {
             
             return {
                 ...state,
-                currentOperand: state.currentOperand + '.',
+                currentOperand: `${state.currentOperand}.`
             }
 
         case 'OPERATOR':
@@ -54,14 +54,12 @@ export const operandsReducer = (state, {type, payload}) => {
 
             if (state.previousOperand == null && state.currentOperand == null)  return state
             
-            if (state.previousOperand == null) {
-                prev = state.currentOperand
-            }
-
-            else if (state.currentOperand == null) {
+            if (state.currentOperand == null) {
                 prev = state.previousOperand
-            }
-
+            } 
+            else if (state.previousOperand == null) {
+                prev = state.currentOperand
+            } 
             else if (state.previousOperand != null && state.currentOperand != null) {
                 prev = evaluate(state.previousOperand, state.currentOperand, state.operator)
             }
