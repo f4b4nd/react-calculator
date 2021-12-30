@@ -28,13 +28,12 @@ export const operandsReducer = (state, {type, payload}) => {
                     ...state,
                     previousOperand: null,
                     currentOperand: payload.digit,
-                    overwrite: true,
                 }
             }
 
             return {
                 ...state,
-                currentOperand: `${state.currentOperand?.replace(/^0/g, '') || '' }${payload.digit}`,
+                currentOperand: `${state.currentOperand?.match(/0\.|[1-9]/g) ? state.currentOperand : ''}${payload.digit}`,
             }
 
         
