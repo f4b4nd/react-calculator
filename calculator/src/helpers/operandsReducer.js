@@ -3,7 +3,7 @@ import { evaluate } from './evaluate'
 export const initialOperands = () => ({
     currentOperand: null,
     previousOperand: null,
-    operation: null,
+    operator: null,
 })
 
 export const operandsReducer = (state, {type, payload}) => {
@@ -18,8 +18,8 @@ export const operandsReducer = (state, {type, payload}) => {
                 }
             }
             
-            else if (payload.digit === '0') {
-                if (state.currentOperand != null && 
+            if (payload.digit === '0' && state.currentOperand != null) {
+                if (
                     !(
                         state.currentOperand.startsWith('0.') || 
                         (state.currentOperand.length > 0 && !state.currentOperand.startsWith('0')))
@@ -32,7 +32,7 @@ export const operandsReducer = (state, {type, payload}) => {
                 return state
             }
 
-            if (state.operation == null && state.previousOperand != null) {
+            if (state.operator == null && state.previousOperand != null) {
                 return {
                     ...state,
                     previousOperand: null,
@@ -60,18 +60,18 @@ export const operandsReducer = (state, {type, payload}) => {
             }
 
             else if (state.previousOperand != null && state.currentOperand != null) {
-                prev = evaluate(state.previousOperand, state.currentOperand, state.operation)
+                prev = evaluate(state.previousOperand, state.currentOperand, state.operator)
             }
             
             return {
                 ...state,
                 previousOperand: prev,
                 currentOperand: null,
-                operation: payload.operator,
+                operator: payload.operator,
             }
 
             
-        case 'REMOVE_DIGIT':
+        case 'DELETE_DIGIT':
             
             if (state.currentOperand == null || state.currentOperand.length < 1)   return state
 
@@ -85,15 +85,15 @@ export const operandsReducer = (state, {type, payload}) => {
 
         case 'EVALUATE':
 
-            if (state.previousOperand == null || state.currentOperand == null || state.operation == null)  return state
+            if (state.previousOperand == null || state.currentOperand == null || state.operator == null)  return state
 
-            const res = evaluate(state.previousOperand, state.currentOperand, state.operation)
+            const res = evaluate(state.previousOperand, state.currentOperand, state.operator)
 
             return {
                 ...state,
                 previousOperand: res,
                 currentOperand: null,
-                operation: null,
+                operator: null,
             }
 
         case 'ALL_CLEAR':

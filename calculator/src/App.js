@@ -3,7 +3,7 @@ import { useReducer } from 'react'
 import './App.css'
 
 import { DigitButton } from './components/DigitButton'
-import { OperationButton } from './components/OperationButton'
+import { OperatorButton } from './components/OperatorButton'
 import { initialOperands, operandsReducer } from './helpers/operandsReducer'
 
 
@@ -20,28 +20,28 @@ export default function App () {
                     <div className="current-operand"> {state.currentOperand} </div>
                 </div>
 
-                <button className="btn-allclear" onClick={() => dispatch({type: 'ALL_CLEAR'})}> AC </button>
-                <button className="btn-delete" onClick={() => dispatch({type: 'REMOVE_DIGIT'})}> DEL </button>
-                <OperationButton operator={"÷"} dispatch={dispatch} /> 
+                <button className="btn btn-allclear" onClick={() => dispatch({type: 'ALL_CLEAR'})}> AC </button>
+                <button className="btn btn-delete" onClick={() => dispatch({type: 'DELETE_DIGIT'})}> DEL </button>
+                <OperatorButton operator={"÷"} dispatch={dispatch} /> 
 
                 <DigitButton digit={1} dispatch={dispatch} /> 
                 <DigitButton digit={2} dispatch={dispatch} />
                 <DigitButton digit={3} dispatch={dispatch} />
-                <OperationButton operator={"*"} dispatch={dispatch} /> 
+                <OperatorButton operator={"*"} dispatch={dispatch} /> 
 
                 <DigitButton digit={4} dispatch={dispatch} /> 
                 <DigitButton digit={5} dispatch={dispatch} /> 
                 <DigitButton digit={6} dispatch={dispatch} />
-                <OperationButton operator={"+"} dispatch={dispatch} />
+                <OperatorButton operator={"+"} dispatch={dispatch} />
 
                 <DigitButton digit={7} dispatch={dispatch} /> 
                 <DigitButton digit={8} dispatch={dispatch} /> 
                 <DigitButton digit={9} dispatch={dispatch} />
-                <OperationButton operator={"-"} dispatch={dispatch} />
+                <OperatorButton operator={"-"} dispatch={dispatch} />
 
                 <DigitButton digit={'.'} dispatch={dispatch} /> 
                 <DigitButton digit={0} dispatch={dispatch} /> 
-                <button className="btn-evaluate" onClick={() => dispatch({type: 'EVALUATE'})} > = </button>
+                <button className="btn btn-evaluate" onClick={() => dispatch({type: 'EVALUATE'})} > = </button>
 
             </div>
         </div>
