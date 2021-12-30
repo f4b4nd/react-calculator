@@ -54,12 +54,12 @@ export const operandsReducer = (state, {type, payload}) => {
 
             if (state.previousOperand == null && state.currentOperand == null)  return state
             
-            if (state.currentOperand == null) {
-                prev = state.previousOperand
-            } 
-            else if (state.previousOperand == null) {
+            if (state.previousOperand == null) {
                 prev = state.currentOperand
             } 
+            else if (state.currentOperand == null) {
+                prev = state.previousOperand
+            }
             else if (state.previousOperand != null && state.currentOperand != null) {
                 prev = evaluate(state.previousOperand, state.currentOperand, state.operator)
             }
