@@ -1,10 +1,5 @@
 import { evaluate } from './evaluate'
 
-export const initialOperands = () => ({
-    currentOperand: null,
-    previousOperand: null,
-    operator: null,
-})
 
 export const operandsReducer = (state, {type, payload}) => {
         
@@ -12,13 +7,11 @@ export const operandsReducer = (state, {type, payload}) => {
 
         case 'ADD_DIGIT':
 
+            const currentOperandMatches = state.currentOperand?.match(/^0\.|^[1-9]+/g)
+
             if (payload.digit === '0') {
 
-                const currentOperandIsDecimal = state.currentOperand?.match(/\d+\./g)
-                const currentOperandIsEmpty = state.currentOperand == null
-                const currentOperandHasNoLeadingZero = !state.currentOperand?.startsWith('0')
-
-                if (!(currentOperandIsDecimal || currentOperandIsEmpty || currentOperandHasNoLeadingZero)) {                    
+                if (!(state.currentOperand == null || currentOperandMatches)) {
                     return state
                 }
             }
@@ -27,25 +20,25 @@ export const operandsReducer = (state, {type, payload}) => {
                 return {
                     ...state,
                     previousOperand: null,
-                    currentOperand: `${payload.digit}`,
+                    currentOperand: payload.digit,
                 }
             }
 
             return {
                 ...state,
-                currentOperand: `${state.currentOperand?.match(/^0\.|^[1-9]/g) ? state.currentOperand : ''}${payload.digit}`,
+                currentOperand: `${currentOperandMatches ? state.currentOperand : ''}${payload.digit}`,
             }
 
         
         case 'ADD_DECIMAL':
 
-            if (state.currentOperand == null || state.currentOperand.includes('.') || state.currentOperand.length < 1) {
+            if (state.currentOperand == null || state.currentOperand.length < 1 || state.currentOperand.includes('.')) {
                 return state
             }
             
             return {
                 ...state,
-                currentOperand: `${state.currentOperand}.`
+                currentOperand: state.currentOperand + '.'
             }
 
         case 'OPERATOR':
@@ -56,7 +49,7 @@ export const operandsReducer = (state, {type, payload}) => {
             
             if (state.previousOperand == null) {
                 prev = state.currentOperand
-            } 
+            }
             else if (state.currentOperand == null) {
                 prev = state.previousOperand
             }
@@ -70,11 +63,10 @@ export const operandsReducer = (state, {type, payload}) => {
                 currentOperand: null,
                 operator: payload.operator,
             }
-
             
         case 'DELETE_DIGIT':
             
-            if (state.currentOperand == null || state.currentOperand.length < 1)   return state
+            if (state.currentOperand == null)   return state
 
             const lastIndex = state.currentOperand.length
             const curr = state.currentOperand.substring(0, lastIndex - 1)
@@ -102,3 +94,9 @@ export const operandsReducer = (state, {type, payload}) => {
 
     }
 }
+
+export const initialOperands = () => ({
+    currentOperand: null,
+    previousOperand: null,
+    operator: null,
+})
