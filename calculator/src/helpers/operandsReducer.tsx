@@ -7,7 +7,6 @@ export type Action = {
     payload?: any
 }
 
-
 export enum ActionTypes {
     DIGIT = 'ADD_DIGIT',
     DECIMAL = 'ADD_DECIMAL',
@@ -16,7 +15,6 @@ export enum ActionTypes {
     EVALUATE = 'EVALUATE',
     CLEAR = 'ALL_CLEAR'
 }
-
 
 export const operandsReducer = (state: OperandState, { type, payload }: Action): OperandState => {
     
@@ -27,10 +25,7 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
             const currentOperandMatches = state.currentOperand?.match(/^0\.|^[1-9]+/g)
 
             if (payload.digit === '0') {
-
-                if (!(state.currentOperand == null || currentOperandMatches)) {
-                    return state
-                }
+                if (!(state.currentOperand == null || currentOperandMatches))   return state
             }
 
             if (state.operator == null && state.previousOperand != null) {
