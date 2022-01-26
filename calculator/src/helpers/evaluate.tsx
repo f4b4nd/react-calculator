@@ -1,5 +1,5 @@
 interface Evaluate {
-    (prev: string, curr: string, operator: string | null) : string | null
+    (prev: string, curr: string, operator: string): string | null
 }
 
 

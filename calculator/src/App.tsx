@@ -1,10 +1,10 @@
 import React, { useReducer } from 'react'
-
 import './App.css'
+
+import { operandsReducer, ActionTypes } from './helpers/operandsReducer'
 
 import { DigitButton } from './components/DigitButton'
 import { OperatorButton } from './components/OperatorButton'
-import { operandsReducer } from './helpers/operandsReducer'
 import { DefaultButton } from './components/DefaultButton'
 
 
@@ -18,15 +18,6 @@ export const initialOperands: OperandState = {
     currentOperand: null,
     previousOperand: null,
     operator: null,
-}
-
-export enum ActionKind {
-    DIGIT = 'ADD_DIGIT',
-    DECIMAL = 'ADD_DECIMAL',
-    OPERATOR = 'SET_OPERATOR',
-    DELETE = 'DELETE_DIGIT',
-    EVALUATE = 'EVALUATE',
-    CLEAR = 'ALL_CLEAR'
 }
 
 
@@ -43,29 +34,28 @@ export default function App () {
                     <div className="current-operand"> {state.currentOperand} </div>
                 </div>
 
-                <DefaultButton dispatch={dispatch} className="btn btn-allclear" type={ActionKind.CLEAR}> AC </DefaultButton>
-                <DefaultButton dispatch={dispatch} className="btn btn-delete" type={ActionKind.DELETE}> DEL </DefaultButton>
-                <OperatorButton operator={"÷"} dispatch={dispatch} /> 
+                <DefaultButton className="btn btn-allclear" dispatch={dispatch} type={ActionTypes.CLEAR} > AC </DefaultButton>
+                <DefaultButton className="btn btn-delete" dispatch={dispatch} type={ActionTypes.DELETE} > DEL </DefaultButton>
+                <OperatorButton dispatch={dispatch} operator={"÷"} />
 
-                <DigitButton digit={'1'} dispatch={dispatch} />
-                <DigitButton digit={'2'} dispatch={dispatch} />
-                <DigitButton digit={'3'} dispatch={dispatch} />
-                <OperatorButton operator={"*"} dispatch={dispatch} />
+                <DigitButton dispatch={dispatch} digit={1} />
+                <DigitButton dispatch={dispatch} digit={2} />
+                <DigitButton dispatch={dispatch} digit={3} />
+                <OperatorButton dispatch={dispatch} operator={"*"} />
 
-                <DigitButton digit={'4'} dispatch={dispatch} /> 
-                <DigitButton digit={'5'} dispatch={dispatch} /> 
-                <DigitButton digit={'6'} dispatch={dispatch} />
-                <OperatorButton operator={"+"} dispatch={dispatch} />
+                <DigitButton dispatch={dispatch} digit={4} />
+                <DigitButton dispatch={dispatch} digit={5} />
+                <DigitButton dispatch={dispatch} digit={6} />
+                <OperatorButton dispatch={dispatch} operator={"+"} />
 
-                <DigitButton digit={'7'} dispatch={dispatch} /> 
-                <DigitButton digit={'8'} dispatch={dispatch} /> 
-                <DigitButton digit={'9'} dispatch={dispatch} />
-                <OperatorButton operator={"-"} dispatch={dispatch} />
+                <DigitButton dispatch={dispatch} digit={7} />
+                <DigitButton dispatch={dispatch} digit={8} />
+                <DigitButton dispatch={dispatch} digit={9} />
+                <OperatorButton dispatch={dispatch} operator={"-"} />
 
-                <DefaultButton dispatch={dispatch} className="btn btn-decimal" type={ActionKind.DECIMAL}> . </DefaultButton>
-                <DigitButton digit={'0'} dispatch={dispatch} /> 
-                <DefaultButton dispatch={dispatch} className="btn btn-evaluate" type={ActionKind.EVALUATE}> = </DefaultButton>
-
+                <DefaultButton className="btn btn-decimal" dispatch={dispatch} type={ActionTypes.DECIMAL} > . </DefaultButton>
+                <DigitButton dispatch={dispatch} digit={0} />
+                <DefaultButton className="btn btn-evaluate" dispatch={dispatch} type={ActionTypes.EVALUATE} > = </DefaultButton>
 
             </div>
         </div>

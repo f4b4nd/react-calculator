@@ -1,21 +1,29 @@
 import { evaluate } from './evaluate'
-import { OperandState, initialOperands, ActionKind } from '../App'
+import { OperandState, initialOperands } from '../App'
+
+/* Expectionnal use of "any" because no way were found 
+to allow multiple possibilities for "payload" with Union */
+export type Action = {
+    type: ActionTypes,
+    payload: any
+}
 
 
-export type Action =
-    | { type: string, payload : { digit: string, operator : string} }
-    //| { type: string, payload: { digit: string } }
-    //| { type: string, payload: { operator: string } }
+export enum ActionTypes {
+    DIGIT = 'ADD_DIGIT',
+    DECIMAL = 'ADD_DECIMAL',
+    OPERATOR = 'SET_OPERATOR',
+    DELETE = 'DELETE_DIGIT',
+    EVALUATE = 'EVALUATE',
+    CLEAR = 'ALL_CLEAR'
+}
 
 
-
-export const operandsReducer = (state: OperandState, { type, payload } : Action): OperandState => {
+export const operandsReducer = (state: OperandState, { type, payload }: Action): OperandState => {
     
-    //const { type, payload } = action
-
     switch (type) {
 
-        case ActionKind.DIGIT:
+        case ActionTypes.DIGIT:
 
             const currentOperandMatches = state.currentOperand?.match(/^0\.|^[1-9]+/g)
 
@@ -40,7 +48,7 @@ export const operandsReducer = (state: OperandState, { type, payload } : Action)
             }
 
         
-        case ActionKind.DECIMAL:
+        case ActionTypes.DECIMAL:
 
             if (state.currentOperand == null || state.currentOperand.length < 1 || state.currentOperand.includes('.')) {
                 return state
@@ -51,11 +59,11 @@ export const operandsReducer = (state: OperandState, { type, payload } : Action)
                 currentOperand: state.currentOperand + '.'
             }
 
-        case ActionKind.OPERATOR:
+        case ActionTypes.OPERATOR:
 
             let prev
             
-            if ( (state.previousOperand == null && state.currentOperand == null))  return state
+            if (state.previousOperand == null && state.currentOperand == null)  return state
             
             if (state.previousOperand == null) {
                 prev = state.currentOperand
@@ -63,7 +71,7 @@ export const operandsReducer = (state: OperandState, { type, payload } : Action)
             else if (state.currentOperand == null) {
                 prev = state.previousOperand
             }
-            else if (state.previousOperand != null && state.currentOperand != null) {
+            else if (state.previousOperand != null && state.currentOperand != null && state.operator != null) {
                 prev = evaluate(state.previousOperand, state.currentOperand, state.operator)
             }
             
@@ -74,7 +82,7 @@ export const operandsReducer = (state: OperandState, { type, payload } : Action)
                 operator: payload.operator,
             }
             
-        case ActionKind.DELETE:
+        case ActionTypes.DELETE:
             
             if (state.currentOperand == null)   return state
 
@@ -86,7 +94,7 @@ export const operandsReducer = (state: OperandState, { type, payload } : Action)
                 currentOperand: curr
             }
 
-        case ActionKind.EVALUATE:
+        case ActionTypes.EVALUATE:
 
             if (state.previousOperand == null || state.currentOperand == null || state.operator == null)  return state
 
@@ -99,7 +107,7 @@ export const operandsReducer = (state: OperandState, { type, payload } : Action)
                 operator: null,
             }
 
-        case ActionKind.CLEAR:
+        case ActionTypes.CLEAR:
             return initialOperands
         
         default:

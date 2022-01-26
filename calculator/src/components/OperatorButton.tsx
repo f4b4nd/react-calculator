@@ -1,16 +1,15 @@
 import React from 'react'
-import { ActionKind } from '../App'
-import { Action } from '../helpers/operandsReducer'
+import { Action, ActionTypes } from '../helpers/operandsReducer'
 
-interface IProps {
+interface Props {
     operator: string,
     dispatch: React.Dispatch<Action>
 }
 
-export const OperatorButton: React.FC<IProps> = ({operator, dispatch}) => (
+export const OperatorButton: React.FC<Props> = ({operator, dispatch}) => (
     <button
         className="btn btn-operator"
-        onClick={() => dispatch({type: ActionKind.OPERATOR, payload: {operator: operator, digit:'z'}})}
+        onClick={() => dispatch({type: ActionTypes.OPERATOR, payload: {operator: operator, digit:'z'}})}
     >
         {operator}
     </button>
