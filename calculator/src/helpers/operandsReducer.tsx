@@ -3,9 +3,9 @@ import { OperandState, initialOperands, ActionKind } from '../App'
 
 
 export type Action =
-    | { type: string, payload : {} }
-    | { type: ActionKind.DIGIT, payload: { digit: string } }
-    | { type: string, payload: { operator: string } }
+    | { type: string, payload : { digit: string, operator : string} }
+    //| { type: string, payload: { digit: string } }
+    //| { type: string, payload: { operator: string } }
 
 
 
@@ -55,7 +55,7 @@ export const operandsReducer = (state: OperandState, { type, payload } : Action)
 
             let prev
             
-            if (state.operator == null || (state.previousOperand == null && state.currentOperand == null))  return state
+            if ( (state.previousOperand == null && state.currentOperand == null))  return state
             
             if (state.previousOperand == null) {
                 prev = state.currentOperand

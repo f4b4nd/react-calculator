@@ -10,7 +10,7 @@ interface IProps {
 export const OperatorButton: React.FC<IProps> = ({operator, dispatch}) => (
     <button
         className="btn btn-operator"
-        onClick={() => dispatch({type: ActionKind.OPERATOR, payload: {operator: operator}})}
+        onClick={() => dispatch({type: ActionKind.OPERATOR, payload: {operator: operator, digit:'z'}})}
     >
         {operator}
     </button>

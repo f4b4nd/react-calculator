@@ -10,7 +10,7 @@ interface IProps {
 export const DigitButton: React.FC<IProps> = ({digit, dispatch }) => (
     <button
         className="btn btn-digit"
-        onClick={() => dispatch({type: ActionKind.DIGIT, payload: {digit: digit.toString()}})}
+        onClick={() => dispatch({type: ActionKind.DIGIT, payload: {digit: digit.toString(), operator: 'z'}})}
     >
         {digit}
     </button>

@@ -5,7 +5,7 @@ import './App.css'
 import { DigitButton } from './components/DigitButton'
 import { OperatorButton } from './components/OperatorButton'
 import { operandsReducer } from './helpers/operandsReducer'
-//import { DefaultButton } from './components/DefaultButton'
+import { DefaultButton } from './components/DefaultButton'
 
 
 export interface OperandState {
@@ -43,8 +43,8 @@ export default function App () {
                     <div className="current-operand"> {state.currentOperand} </div>
                 </div>
 
-                <button className="btn btn-allclear" onClick={() => dispatch({type: ActionKind.CLEAR})}> AC </button>
-                <button className="btn btn-delete" onClick={() => dispatch({type: ActionKind.DELETE})}> DEL </button>
+                <DefaultButton dispatch={dispatch} className="btn btn-allclear" type={ActionKind.CLEAR}> AC </DefaultButton>
+                <DefaultButton dispatch={dispatch} className="btn btn-delete" type={ActionKind.DELETE}> DEL </DefaultButton>
                 <OperatorButton operator={"÷"} dispatch={dispatch} /> 
 
                 <DigitButton digit={'1'} dispatch={dispatch} />
@@ -62,9 +62,10 @@ export default function App () {
                 <DigitButton digit={'9'} dispatch={dispatch} />
                 <OperatorButton operator={"-"} dispatch={dispatch} />
 
-                <button className="btn btn-decimal" onClick={() => dispatch({type: 'ADD_DECIMAL'})} > . </button>
+                <DefaultButton dispatch={dispatch} className="btn btn-decimal" type={ActionKind.DECIMAL}> . </DefaultButton>
                 <DigitButton digit={'0'} dispatch={dispatch} /> 
-                <button className="btn btn-evaluate" onClick={() => dispatch({type: 'EVALUATE'})} > = </button>
+                <DefaultButton dispatch={dispatch} className="btn btn-evaluate" type={ActionKind.EVALUATE}> = </DefaultButton>
+
 
             </div>
         </div>
