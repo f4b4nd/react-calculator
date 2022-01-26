@@ -1,4 +1,9 @@
-export const evaluate = (prev, curr, operator) => {
+interface Evaluate {
+    (prev: string, curr: string, operator: string) : string | null
+}
+
+
+export const evaluate: Evaluate = (prev, curr, operator) => {
 
     let res
     const a = parseFloat(prev)
@@ -17,6 +22,6 @@ export const evaluate = (prev, curr, operator) => {
         res = a / b
     }
     
-    return res
+    return res?.toString() || null
 
 }
