@@ -25,10 +25,10 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
             const currentOperandMatches = state.currentOperand?.match(/^0\.|^[1-9]+/g)
 
             if (payload.digit === '0') {
-                if (!(state.currentOperand == null || currentOperandMatches))   return state
+                if (!(state.currentOperand === null || currentOperandMatches))   return state
             }
 
-            if (state.operator == null && state.previousOperand != null) {
+            if (state.operator === null && state.previousOperand !== null) {
                 return {
                     ...state,
                     previousOperand: null,
@@ -40,11 +40,10 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
                 ...state,
                 currentOperand: `${currentOperandMatches ? state.currentOperand : ''}${payload.digit}`,
             }
-
         
         case ActionTypes.DECIMAL:
 
-            if (state.currentOperand == null || state.currentOperand.length < 1 || state.currentOperand.includes('.')) {
+            if (state.currentOperand === null || state.currentOperand.length < 1 || state.currentOperand.includes('.')) {
                 return state
             }
             
@@ -57,15 +56,15 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
 
             let prev
             
-            if (state.previousOperand == null && state.currentOperand == null)  return state
+            if (state.previousOperand === null && state.currentOperand === null)  return state
             
-            if (state.previousOperand == null) {
+            if (state.previousOperand === null) {
                 prev = state.currentOperand
             }
-            else if (state.currentOperand == null) {
+            else if (state.currentOperand === null) {
                 prev = state.previousOperand
             }
-            else if (state.previousOperand != null && state.currentOperand != null && state.operator != null) {
+            else if (state.previousOperand !== null && state.currentOperand !== null && state.operator !== null) {
                 prev = evaluate(state.previousOperand, state.currentOperand, state.operator)
             }
             
@@ -78,7 +77,7 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
             
         case ActionTypes.DELETE:
             
-            if (state.currentOperand == null)   return state
+            if (state.currentOperand === null)   return state
 
             const lastIndex = state.currentOperand.length
             const curr = state.currentOperand.substring(0, lastIndex - 1)
@@ -90,7 +89,7 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
 
         case ActionTypes.EVALUATE:
 
-            if (state.previousOperand == null || state.currentOperand == null || state.operator == null)  return state
+            if (state.previousOperand === null || state.currentOperand === null || state.operator === null)  return state
 
             const res = evaluate(state.previousOperand, state.currentOperand, state.operator)
 
