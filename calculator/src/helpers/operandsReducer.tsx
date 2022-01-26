@@ -22,15 +22,12 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
 
         case ActionTypes.DIGIT:
 
-            const currentOperandMatches = state.currentOperand?.match(/^0\.|^[1-9]+/g)
+            const currentOperandIsValid = state.currentOperand?.match(/^0\.|^[1-9]+/g)
+            const hasPreviousCalculation = state.operator === null && state.previousOperand !== null
 
-            if (payload.digit === '0') {
-                if (!(state.currentOperand === null || currentOperandMatches))   return state
-            }
-
-            if (state.operator === null && state.previousOperand !== null) {
+            if (hasPreviousCalculation) {
                 return {
-                    ...state,
+                    operator: null,
                     previousOperand: null,
                     currentOperand: payload.digit,
                 }
@@ -38,15 +35,15 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
 
             return {
                 ...state,
-                currentOperand: `${currentOperandMatches ? state.currentOperand : ''}${payload.digit}`,
+                currentOperand: `${currentOperandIsValid ? state.currentOperand : ''}${payload.digit}`,
             }
         
         case ActionTypes.DECIMAL:
 
-            if (state.currentOperand === null || state.currentOperand.length < 1 || state.currentOperand.includes('.')) {
-                return state
-            }
+            const currentOperandMatchesInteger = state.currentOperand?.match(/^\d+$/g)
             
+            if (!currentOperandMatchesInteger)    return state
+                        
             return {
                 ...state,
                 currentOperand: state.currentOperand + '.'
@@ -55,7 +52,7 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
         case ActionTypes.OPERATOR:
 
             let prev
-            
+
             if (state.previousOperand === null && state.currentOperand === null)  return state
             
             if (state.previousOperand === null) {
@@ -69,9 +66,8 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
             }
             
             return {
-                ...state,
-                previousOperand: prev || null,
                 currentOperand: null,
+                previousOperand: prev || null,
                 operator: payload.operator,
             }
             
@@ -93,11 +89,10 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
 
             const res = evaluate(state.previousOperand, state.currentOperand, state.operator)
 
-            return {
-                ...state,
-                previousOperand: res,
-                currentOperand: null,
+            return {                
                 operator: null,
+                currentOperand: null,
+                previousOperand: res,
             }
 
         case ActionTypes.CLEAR:
