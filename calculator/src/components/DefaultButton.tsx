@@ -9,7 +9,7 @@ interface Props {
 
 export const DefaultButton: React.FC<Props> = ({dispatch, type, children, ...restProps}) => (
     <button {...restProps}
-        onClick={() => dispatch({type: type, payload : {digit: 'z', operator: 'z'}})}
+        onClick={() => dispatch({type: type})}
     >
         {children}
     </button>

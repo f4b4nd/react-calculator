@@ -9,7 +9,7 @@ interface Props {
 export const DigitButton: React.FC<Props> = ({digit, dispatch }) => (
     <button
         className="btn btn-digit"
-        onClick={() => dispatch({type: ActionTypes.DIGIT, payload: {digit: digit.toString(), operator: 'z'}})}
+        onClick={() => dispatch({type: ActionTypes.DIGIT, payload: {digit: digit.toString()}})}
     >
         {digit}
     </button>

@@ -1,11 +1,10 @@
 import { evaluate } from './evaluate'
 import { OperandState, initialOperands } from '../App'
 
-/* Expectionnal use of "any" because no way were found 
-to allow multiple possibilities for "payload" with Union */
+/* Expectionnal use of "any" because no way were found to allow multiple possibilities for "payload" with Union */
 export type Action = {
     type: ActionTypes,
-    payload: any
+    payload?: any
 }
 
 

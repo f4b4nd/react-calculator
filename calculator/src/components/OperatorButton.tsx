@@ -9,7 +9,7 @@ interface Props {
 export const OperatorButton: React.FC<Props> = ({operator, dispatch}) => (
     <button
         className="btn btn-operator"
-        onClick={() => dispatch({type: ActionTypes.OPERATOR, payload: {operator: operator, digit:'z'}})}
+        onClick={() => dispatch({type: ActionTypes.OPERATOR, payload: {operator: operator}})}
     >
         {operator}
     </button>
