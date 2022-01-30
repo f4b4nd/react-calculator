@@ -39,7 +39,7 @@ export const operandsReducer: Props = (state, {type, payload}) => {
 
             return {
                 ...state,
-                currentOperand: `${currentOperandIsValid ?? ''}${payload.digit}`,
+                currentOperand: `${currentOperandIsValid ?  state.currentOperand : ''}${payload.digit}`,
             }
         
         case ActionTypes.DECIMAL:
@@ -93,7 +93,7 @@ export const operandsReducer: Props = (state, {type, payload}) => {
 
             const res = evaluate(state.previousOperand, state.currentOperand, state.operator)
 
-            return {                
+            return {
                 operator: null,
                 currentOperand: null,
                 previousOperand: res,
