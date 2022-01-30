@@ -1,9 +1,9 @@
-interface Evaluate {
+interface Props {
     (prev: string, curr: string, operator: string): string | null
 }
 
 
-export const evaluate: Evaluate = (prev, curr, operator) => {
+export const evaluate: Props = (prev, curr, operator) => {
 
     let res
     const a = parseFloat(prev)

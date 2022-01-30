@@ -6,7 +6,7 @@ interface Props {
     dispatch: React.Dispatch<Action>
 }
 
-export const DigitButton: React.FC<Props> = ({digit, dispatch }) => (
+export const DigitButton: React.FC<Props> = ({digit, dispatch}) => (
     <button
         className="btn btn-digit"
         onClick={() => dispatch({type: ActionTypes.DIGIT, payload: {digit: digit.toString()}})}

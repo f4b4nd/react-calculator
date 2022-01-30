@@ -7,6 +7,7 @@ interface Props {
     className?: string
 }
 
+
 export const DefaultButton: React.FC<Props> = ({dispatch, type, children, ...restProps}) => (
     <button {...restProps}
         onClick={() => dispatch({type: type})}

@@ -1,8 +1,8 @@
 import { evaluate } from './evaluate'
 import { OperandState, initialOperands } from '../App'
 
-/* Expectionnal use of "any" because no way were found to allow multiple possibilities for "payload" with Union */
-export type Action = {
+/* Expectionnal use of "any" because no solution was found to allow multiple possibilities for "payload" with Union */
+export interface Action {
     type: ActionTypes,
     payload?: any
 }
@@ -16,7 +16,11 @@ export enum ActionTypes {
     CLEAR = 'ALL_CLEAR'
 }
 
-export const operandsReducer = (state: OperandState, { type, payload }: Action): OperandState => {
+interface Props {
+    (state: OperandState, action: Action): OperandState
+}
+
+export const operandsReducer: Props = (state, {type, payload}) => {
     
     switch (type) {
 
@@ -35,7 +39,7 @@ export const operandsReducer = (state: OperandState, { type, payload }: Action):
 
             return {
                 ...state,
-                currentOperand: `${currentOperandIsValid ? state.currentOperand : ''}${payload.digit}`,
+                currentOperand: `${currentOperandIsValid ?? ''}${payload.digit}`,
             }
         
         case ActionTypes.DECIMAL:
